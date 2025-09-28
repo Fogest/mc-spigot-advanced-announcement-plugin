@@ -17,7 +17,7 @@ A comprehensive Minecraft Spigot/PaperMC plugin for managing rotating announceme
 
 - Java 21 or higher
 - Spigot/PaperMC 1.21 or compatible
-- No additional dependencies required
+- SQLite JDBC driver (usually included with most server distributions)
 
 ## Installation
 
@@ -25,6 +25,14 @@ A comprehensive Minecraft Spigot/PaperMC plugin for managing rotating announceme
 2. Place the JAR file in your server's `plugins` folder
 3. Restart your server
 4. The plugin will create a `advanced-rotating-messages` folder with default configuration
+
+### SQLite Dependency
+
+Most modern Minecraft servers (PaperMC, Spigot) include SQLite support by default. If you encounter a `ClassNotFoundException` for SQLite, download the SQLite JDBC driver:
+
+1. Download `sqlite-jdbc-3.44.1.0.jar` from [Maven Central](https://repo1.maven.org/maven2/org/xerial/sqlite-jdbc/3.44.1.0/)
+2. Place it in your server's `libs` folder (create the folder if it doesn't exist)
+3. Restart your server
 
 ## Configuration
 
