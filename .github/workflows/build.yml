@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ master, main ]
 
+permissions:
+  contents: write
+  packages: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -57,13 +61,12 @@ jobs:
       run: echo "DATE=$(date +'%Y-%m-%d-%H-%M-%S')" >> $GITHUB_OUTPUT
 
     - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
+      uses: softprops/action-gh-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: release-${{ steps.date.outputs.DATE }}
-        release_name: Advanced Rotating Messages - ${{ steps.date.outputs.DATE }}
+        name: Advanced Rotating Messages - ${{ steps.date.outputs.DATE }}
         body: |
           Automated release of Advanced Rotating Messages plugin
 
@@ -89,15 +92,6 @@ jobs:
           - `/arm create <id> <name> <frequency>` - Create new group
           - `/arm messages <group> list` - List messages in group
           - `/arm messages <group> add <message>` - Add message to group
+        files: ./target/advanced-rotating-messages.jar
         draft: false
         prerelease: false
-
-    - name: Upload Release Asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./target/advanced-rotating-messages.jar
-        asset_name: advanced-rotating-messages.jar
-        asset_content_type: application/java-archive
