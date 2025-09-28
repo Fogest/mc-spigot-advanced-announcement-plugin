@@ -1,0 +1,103 @@
+name: Build and Release
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+
+    - name: Cache Maven dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+
+    - name: Build with Maven
+      run: mvn clean compile package
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: advanced-rotating-messages-jar
+        path: target/advanced-rotating-messages.jar
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+
+    - name: Build with Maven
+      run: mvn clean compile package
+
+    - name: Get current date
+      id: date
+      run: echo "DATE=$(date +'%Y-%m-%d-%H-%M-%S')" >> $GITHUB_OUTPUT
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: release-${{ steps.date.outputs.DATE }}
+        release_name: Advanced Rotating Messages - ${{ steps.date.outputs.DATE }}
+        body: |
+          Automated release of Advanced Rotating Messages plugin
+
+          ## Features
+          - Multiple rotating message groups with different frequencies
+          - SQLite database for message tracking
+          - Random message selection ensuring all messages are sent before repeating
+          - Message queue system to prevent multiple messages per minute
+          - In-game commands for group and message management
+          - Permission-based access control
+          - Pagination support for large message lists
+
+          ## Installation
+          1. Download the JAR file below
+          2. Place it in your server's plugins folder
+          3. Restart your server
+          4. Configure message groups in `plugins/advanced-rotating-messages/groups.yml`
+
+          ## Commands
+          - `/arm help` - Show help
+          - `/arm list` - List all groups
+          - `/arm info <group>` - View group details
+          - `/arm create <id> <name> <frequency>` - Create new group
+          - `/arm messages <group> list` - List messages in group
+          - `/arm messages <group> add <message>` - Add message to group
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./target/advanced-rotating-messages.jar
+        asset_name: advanced-rotating-messages.jar
+        asset_content_type: application/java-archive

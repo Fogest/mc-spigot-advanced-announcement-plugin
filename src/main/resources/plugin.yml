@@ -1,0 +1,49 @@
+name: AdvancedRotatingMessages
+version: 1.0.0
+main: com.advancedrotating.messages.AdvancedRotatingMessagesPlugin
+api-version: 1.21
+author: AdvancedRotating
+description: Advanced rotating announcement and tip plugin for Spigot/PaperMC servers
+website: https://github.com/advancedrotating/advanced-rotating-messages
+
+commands:
+  arm:
+    description: Main command for Advanced Rotating Messages
+    usage: /arm <subcommand>
+    permission: advancedrotating.admin
+    aliases: [advancedrotating, rotatingmessages]
+
+permissions:
+  advancedrotating.admin:
+    description: Full access to all Advanced Rotating Messages commands
+    default: op
+  advancedrotating.group.list:
+    description: List all message groups
+    default: op
+  advancedrotating.group.info:
+    description: View information about a specific group
+    default: op
+  advancedrotating.group.create:
+    description: Create new message groups
+    default: op
+  advancedrotating.group.edit:
+    description: Edit existing message groups
+    default: op
+  advancedrotating.group.delete:
+    description: Delete message groups
+    default: op
+  advancedrotating.message.list:
+    description: List messages within groups
+    default: op
+  advancedrotating.message.add:
+    description: Add new messages to groups
+    default: op
+  advancedrotating.message.edit:
+    description: Edit existing messages
+    default: op
+  advancedrotating.message.delete:
+    description: Delete messages from groups
+    default: op
+  advancedrotating.message.force:
+    description: Force send a message from a group
+    default: op

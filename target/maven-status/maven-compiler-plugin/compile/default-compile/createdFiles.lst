@@ -1,0 +1,9 @@
+com/advancedrotating/messages/database/DatabaseManager$QueuedMessage.class
+com/advancedrotating/messages/AdvancedRotatingMessagesPlugin.class
+com/advancedrotating/messages/commands/ARMCommand.class
+com/advancedrotating/messages/config/ConfigManager.class
+com/advancedrotating/messages/database/DatabaseManager.class
+com/advancedrotating/messages/scheduler/MessageScheduler$1.class
+com/advancedrotating/messages/models/MessageGroup.class
+com/advancedrotating/messages/managers/GroupManager.class
+com/advancedrotating/messages/scheduler/MessageScheduler.class
