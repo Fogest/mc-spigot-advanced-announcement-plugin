@@ -165,7 +165,15 @@ Expected: Permission denied messages
 
 ## Performance Testing
 
-### 20. Stress Test
+### 20. Test Player-Aware Broadcasting
+1. Set up a group with a short frequency (1-2 minutes for quick testing)
+2. Start the server with no players
+3. Wait for several frequency cycles
+4. Check logs - should see "Skipping message processing - no players online" (in debug/fine logs)
+5. Join the server as a player
+6. Verify messages start broadcasting again
+
+### 21. Stress Test
 - Create multiple groups with many messages
 - Verify server performance remains stable
 - Check that only one message per minute is sent even with multiple groups
@@ -173,11 +181,12 @@ Expected: Permission denied messages
 ## Expected Automatic Behavior
 
 Once the plugin is loaded with default configuration:
-- Every 5 minutes: An announcement message should broadcast
-- Every 10 minutes: A tip message should broadcast
+- Every 5 minutes: An announcement message should broadcast (when players are online)
+- Every 10 minutes: A tip message should broadcast (when players are online)
 - Messages are selected randomly but ensure all messages are sent before repeating
 - Maximum of one message per minute across all groups
 - If multiple groups are due, messages are queued for subsequent minutes
+- **Smart Pausing**: No messages are sent when the server is empty (0 players online)
 
 ## Troubleshooting
 

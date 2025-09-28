@@ -7,6 +7,7 @@ A comprehensive Minecraft Spigot/PaperMC plugin for managing rotating announceme
 - **Multiple Message Groups**: Create different groups of messages with independent frequencies
 - **Smart Message Scheduling**: Ensures all messages in a group are sent before repeating
 - **Queue System**: Prevents multiple messages from being sent in the same minute
+- **Player-Aware Broadcasting**: Only sends messages when players are online (pauses on empty servers)
 - **SQLite Database**: Persistent tracking of message states across server restarts
 - **Permission System**: Granular permission control for different operations
 - **In-Game Management**: Complete command system for managing groups and messages
@@ -113,6 +114,7 @@ All commands use the base command `/arm` (aliases: `/advancedrotating`, `/rotati
 - Only one message can be sent per minute server-wide
 - If multiple groups are scheduled to send messages at the same time, they are queued
 - Queued messages are sent in subsequent minutes to maintain the one-message-per-minute limit
+- **Smart Pausing**: Messages are only sent when players are online - empty servers don't receive broadcasts
 
 ### Database Tracking
 - SQLite database tracks which messages have been sent for each group

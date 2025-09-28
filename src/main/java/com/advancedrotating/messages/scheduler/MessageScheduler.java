@@ -67,6 +67,12 @@ public class MessageScheduler {
     }
 
     private void processScheduledMessages() {
+        // Skip processing if no players are online
+        if (Bukkit.getOnlinePlayers().isEmpty()) {
+            plugin.getLogger().fine("Skipping message processing - no players online");
+            return;
+        }
+
         long currentTime = System.currentTimeMillis();
         long currentMinute = currentTime / (60 * 1000);
         long lastMinute = lastMessageSentTime / (60 * 1000);
