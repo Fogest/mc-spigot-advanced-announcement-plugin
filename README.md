@@ -1,0 +1,1 @@
+# mc-spigot-advanced-announcement-plugin
